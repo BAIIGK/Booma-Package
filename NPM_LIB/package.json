@@ -1,6 +1,10 @@
 {
   "name": "booma",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BAIIGK/Booma-Package.git"
+  },
   "description": "query structured &  unstructured data like sql.",
   "main": "index.js",
   "devDependencies": {},
