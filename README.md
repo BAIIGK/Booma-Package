@@ -3,7 +3,9 @@
 NPM package applies data processing on structured and unstructured data.
 
 
-![unmaintained](http://img.shields.io/badge/status-unmaintained-red.png)
+[![Build status][travisci-image]][travisci-url] 
+[![Coverage Status][coveralls-image]][coveralls-url] 
+[![Quality Gate][quality-gate-image]][quality-gate-url]
 
 ## Installation
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
