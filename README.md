@@ -3,9 +3,9 @@
 NPM package applies data processing on structured and unstructured data.
 
 
-[![NPM Version][npm-version-image]][npm-url]
-[![NPM Install Size][npm-install-size-image]][npm-install-size-url]
-[![NPM Downloads][npm-downloads-image]][npm-downloads-url]
+## Environment
+- **NPM**: 8.1.0
+- **Node**: v16.13.0
 
 ## Installation
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
@@ -15,7 +15,7 @@ Installation is done using the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```console
-$ npm install @baiigk.mn/booma
+$ npm install @baiigk/booma
 ```
 
 ## Example
@@ -71,5 +71,3 @@ console.log(test());
 
 - The organization is [BAIIGK](https://github.com/BAIIGK)
 
-[npm-url]: https://www.npmjs.com/package/@baiigk/booma
-[npm-version-image]: https://www.npmjs.com/package/@baiigk/booma/v/1.0.1
