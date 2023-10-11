@@ -2,7 +2,7 @@
 ![BOOMA]
 NPM package applies data processing on structured and unstructured data.
 
-```
+```js
 const {ClassWithStaticMethod} = require('@baiigk.mn/booma');
 
 var data = [
