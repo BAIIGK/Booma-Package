@@ -1,4 +1,4 @@
-# ***Booma-Package*** `#0969DA`
+# ***Booma-Package***
 
 NPM package applies data processing on structured and unstructured data.
 
