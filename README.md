@@ -57,3 +57,12 @@ function test() {
 
 console.log(test());
 ```
+
+## People
+
+- The original authors of Booma are:
+ - [Mohamed Salama](https://github.com/MhmdSlama)
+ - [Neveen S.Nagy](https://github.com/Neveen-Samir-Nagy)
+
+
+The organization is [BAIIGK](https://github.com/BAIIGK)
