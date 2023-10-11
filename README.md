@@ -1,5 +1,5 @@
-# Booma-Package
-![BOOMA]
+# ***Booma-Package*** `#0969DA`
+
 NPM package applies data processing on structured and unstructured data.
 
 ```js
