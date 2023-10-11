@@ -2,6 +2,20 @@
 
 NPM package applies data processing on structured and unstructured data.
 
+## Installation
+Before installing, [download and install Node.js](https://nodejs.org/en/download/).
+Node.js 0.10 or higher is required.
+
+If this is a brand new project, make sure to create a `package.json` first with
+the [`npm init` command](https://docs.npmjs.com/creating-a-package-json-file).
+
+Installation is done using the
+[`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
+
+```console
+$ npm install @baiigk.mn/booma
+```
+
 ```js
 const {ClassWithStaticMethod} = require('@baiigk.mn/booma');
 
