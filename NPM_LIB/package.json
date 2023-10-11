@@ -1,0 +1,12 @@
+{
+  "name": "booma",
+  "version": "1.0.0",
+  "description": "query structured &  unstructured data like sql.",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mohamed S.M.Salama  & Neveen S.Nagy",
+  "license": "ISC"
+}
