@@ -3,7 +3,7 @@
 NPM package applies data processing on structured and unstructured data.
 
 
-[![NPM Version][npm-version-image]]
+![NPM Version][npm-version-image]
 
 ## Installation
 Before installing, [download and install Node.js](https://nodejs.org/en/download/).
