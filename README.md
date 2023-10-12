@@ -1,6 +1,6 @@
-# ***Booma-Package***
+# ***Booma***
 
-NPM package applies data processing on structured and unstructured data.
+Booma is a JavaScript library applies data management and inquiry on structured and unstructured data.
 
 
 ## Environment
@@ -18,13 +18,22 @@ Installation is done using the
 $ npm install @baiigk/booma
 ```
 
+## Features
+
+Booma provides many SQL-like functionalities that can be very helpful in data processing
+  * SQL-Like Syntax.
+  * Filtering and Operators.
+  * Sorting Criteria.
+  * Grouping and Aggregates.
+  * Control of Records Returned.
+
 ## Example
 ```js
 const {ClassWithStaticMethod} = require('@baiigk.mn/booma');
 
 var data = [
         { id: 1, name: 'Berri Gay', gender: 'Female', age: 24 },
-        { id: 2, name: 'Bianca Rathbourne', gender: 'Agender', age: 37 },
+        { id: 2, name: 'Bianca Rathbourne', gender: 'Female', age: 37 },
         { id: 3, name: 'Jaye Phillps', gender: 'Male', age: 48 },
         { id: 4, name: 'Lorne Ortell', gender: 'Female', age: 24 },
         { id: 5, name: 'Almire Maddock', gender: 'Female', age: 32 },
@@ -33,7 +42,7 @@ var data = [
         { id: 8, name: 'Towney Jerzykiewicz', gender: 'Male', age: 21 },
         { id: 9, name: 'Tiebout Glasheen', gender: 'Male', age: 24 },
         { id: 10, name: 'Yurik Morigan', gender: 'Male', age: 48 },
-        { id: 11, name: 'Goldina Danielsky', gender: 'Non-binary', age: 22 },
+        { id: 11, name: 'Goldina Danielsky', gender: 'Female', age: 22 },
         { id: 12, name: 'Ambrosius Antoniewski', gender: 'Male', age: 50 },
         { id: 13, name: 'Aidan McNae', gender: 'Female', age: 48 },
         { id: 14, name: 'Saul Farnon', gender: 'Male', age: 31 },
@@ -61,6 +70,32 @@ function test() {
 
 console.log(test());
 ```
+## Usage
+
+First, user needs to pass the data and its type through ```parse_input``` function which will perform some initial processing on data.
+
+There are 2 types of ```ARRAY_OF_OBJ``` like the example above or ```ARRAY_OF_ARRAY```, in this case the data should be like below
+```js
+var data = [
+        [ "id", "name", "gender", "age" ],
+        [ 2, 'Bianca Rathbourne', 'Agender', 37 ],
+        [ 3, 'Jaye Phillps', 'Male', 48 ],
+        [ 4, 'Lorne Ortell', 'Female', 24 ]
+]
+```
+
+Then, ```select``` function can be used for inquiring, it takes an object as parameter which has all the values needed for select query like below
+(Note: user doesn't need to add all the object parameters just the ones needed)
+```js
+    const result = ClassWithStaticMethod.select({
+      columns: ['gender', 'age', 'count(id)'],
+      conditions: 'age > 30',
+      group_by: ['gender', 'age'],
+      having: 'count(id) > 1',
+      order_by: ['count(id)'],
+      limit: '5',
+    });
+```
 
 ## People
 
@@ -69,5 +104,4 @@ console.log(test());
     - [Neveen S.Nagy](https://github.com/Neveen-Samir-Nagy)
 
 
-- The organization is [BAIIGK](https://github.com/BAIIGK)
 
