@@ -14,7 +14,7 @@ class ClassWithStaticMethod {
     };
     static objs_arr = [];
     static headers = new Set();
-    
+
     static parse_input = (nonParsed_array, type) => {
         const key_value = (keys, values) => {
             var obj = {};
@@ -35,7 +35,7 @@ class ClassWithStaticMethod {
             nonParsed_array.forEach((element, index) => {
                 this.objs_arr[index] = key_value(this.headers, element);
             });
-        } else if (this.types[type] === 2){
+        } else if (this.types[type] === 2) {
             nonParsed_array.map((item) =>
                 Object.keys(item).forEach(this.headers.add, this.headers)
             );
@@ -44,8 +44,7 @@ class ClassWithStaticMethod {
                 this.headers.add(head.trim().toLowerCase());
             }
             this.objs_arr = nonParsed_array;
-        }
-        else {
+        } else {
             console.error('Not valid type');
             return;
         }
@@ -73,6 +72,12 @@ class ClassWithStaticMethod {
             const matches = col.match(/(?<=\().+?(?=\))/g);
             if (col.trim().toLowerCase().indexOf('count') !== -1) {
                 if (
+                    matches === null ||
+                    matches[0].trim().toLowerCase() === '*' ||
+                    matches[0].trim().toLowerCase() === ''
+                ) {
+                    obj_cols[this.AGG_FUNCS[1]] = ['LENGTH', col.trim()];
+                } else if (
                     !this.check_columnName(
                         matches[0].trim().toLowerCase(),
                         Array.from(this.headers)
@@ -208,16 +213,22 @@ class ClassWithStaticMethod {
                 groupBy_obj[columns_objs[key][1]]
                     ? groupBy_obj[columns_objs[key][1]] >
                       record[columns_objs[key][0]]
-                        ? record[columns_objs[key][0]]
-                        : groupBy_obj[columns_objs[key][1]]
-                    : record[columns_objs[key][0]];
+                        ? (groupBy_obj[columns_objs[key][1]] =
+                              record[columns_objs[key][0]])
+                        : (groupBy_obj[columns_objs[key][1]] =
+                              groupBy_obj[columns_objs[key][1]])
+                    : (groupBy_obj[columns_objs[key][1]] =
+                          record[columns_objs[key][0]]);
             } else if (key === this.AGG_FUNCS[5]) {
                 groupBy_obj[columns_objs[key][1]]
                     ? groupBy_obj[columns_objs[key][1]] <
                       record[columns_objs[key][0]]
-                        ? record[columns_objs[key][0]]
-                        : groupBy_obj[columns_objs[key][1]]
-                    : record[columns_objs[key][0]];
+                        ? (groupBy_obj[columns_objs[key][1]] =
+                              record[columns_objs[key][0]])
+                        : (groupBy_obj[columns_objs[key][1]] =
+                              groupBy_obj[columns_objs[key][1]])
+                    : (groupBy_obj[columns_objs[key][1]] =
+                          record[columns_objs[key][0]]);
             } else {
                 !groupBy_obj[columns_objs[key][1]]
                     ? (groupBy_obj[columns_objs[key][0]] =
@@ -250,18 +261,23 @@ class ClassWithStaticMethod {
     };
 
     static conditions_having = (main_array, conditions, columns) => {
+        columns = columns
+            .map((col) => {
+                return col
+                    .trim()
+                    .replaceAll(/(sum|avg|min|max)\((\w+)\)/g, '$1_$2')
+                    .replaceAll(/count\b.*/g, 'count_all');
+            })
+            .join();
         const customFilters = conditions
             ? new Function(
                   'item',
-                  `const { ${columns
-                      .join()
-                      .replace(/(count|sum)\((\w+)\)/g, '$1_$2')} } = item;
-            return ${
-                conditions
+                  `const { ${columns} } = item;
+            return ${conditions
                 .replace(/(^|[^><=!])=/g, '$1==')
-                .replace(/(count|sum)\((\w+)\)/g, '$1_$2')
-                .replace(/like (\w+)/g, '.indexOf(\'$1\') !== -1')
-            };`
+                .replace(/(sum|avg|min|max)\((\w+)\)/g, '$1_$2')
+                .replace(/count\b.*/g, 'count_all')
+                .replace(/like (\w+)/g, ".indexOf('$1') !== -1")};`
               )
             : () => true;
 
@@ -269,15 +285,18 @@ class ClassWithStaticMethod {
             let newItem = {};
             Object.keys(item).map(
                 (key) =>
-                    (newItem[key.replace(/(count|sum)\((\w+)\)/g, '$1_$2')] =
-                        item[key])
+                    (newItem[
+                        key
+                            .replace(/(sum|avg|min|max)\((\w+)\)/g, '$1_$2')
+                            .replace(/count\b.*/g, 'count_all')
+                    ] = item[key])
             );
             return customFilters(newItem);
         });
     };
 
     static select = (sql_objs = {}) => {
-        if(this.objs_arr.length === 0 || !this.objs_arr){
+        if (this.objs_arr.length === 0 || !this.objs_arr) {
             return;
         }
         var { columns, conditions, group_by, having, order_by, limit } =
@@ -297,7 +316,6 @@ class ClassWithStaticMethod {
             result = this.objs_arr;
         }
 
-        
         //Group By
         if (group_by && group_by.length !== 0) {
             const includesAll = group_by.every((item) =>
@@ -320,6 +338,7 @@ class ClassWithStaticMethod {
                         ? (v += `${obj[col.trim()]}-`)
                         : (v += `${obj[col.trim()]}`);
                 });
+                //console.log(distinctCombinations[v]);
                 !distinctCombinations[v]
                     ? (distinctCombinations[v] = {})
                     : null;
@@ -329,11 +348,11 @@ class ClassWithStaticMethod {
                     distinctCombinations[v]
                 );
             });
+            //console.log(distinctCombinations);
             // distinctCombinations = distinctCombinations.map((combination) => {
             //     return combination.split('-');
             // });
         }
-
 
         //Columns
         if (Object.keys(distinctCombinations).length !== 0) {
@@ -357,7 +376,6 @@ class ClassWithStaticMethod {
             result = this.customSort(result, order_by);
         }
 
-
         //Limit
         if (limit && parseInt(limit)) {
             result.splice(limit);
@@ -367,7 +385,7 @@ class ClassWithStaticMethod {
     };
 }
 
-module.exports = {ClassWithStaticMethod};
+module.exports = { ClassWithStaticMethod };
 
 // ClassWithStaticMethod.parse_input(
 //     [
