@@ -35,7 +35,7 @@ class ClassWithStaticMethod {
             nonParsed_array.forEach((element, index) => {
                 this.objs_arr[index] = key_value(this.headers, element);
             });
-        } else {
+        } else if (this.types[type] === 2){
             nonParsed_array.map((item) =>
                 Object.keys(item).forEach(this.headers.add, this.headers)
             );
@@ -44,6 +44,10 @@ class ClassWithStaticMethod {
                 this.headers.add(head.trim().toLowerCase());
             }
             this.objs_arr = nonParsed_array;
+        }
+        else {
+            console.error('Not valid type');
+            return;
         }
 
         return this.objs_arr;
@@ -273,6 +277,9 @@ class ClassWithStaticMethod {
     };
 
     static select = (sql_objs = {}) => {
+        if(this.objs_arr.length === 0 || !this.objs_arr){
+            return;
+        }
         var { columns, conditions, group_by, having, order_by, limit } =
             sql_objs;
 
